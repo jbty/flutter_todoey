@@ -1,7 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_todoey/models/task_data.dart';
+import 'package:provider/provider.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends StatefulWidget {
+  @override
+  _AddTaskScreenState createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  String _taskName;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,6 +38,11 @@ class AddTaskScreen extends StatelessWidget {
               ),
               SizedBox(height: 10.0),
               TextField(
+                onChanged: (userInput) {
+                  setState(() {
+                    _taskName = userInput;
+                  });
+                },
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
@@ -48,7 +62,10 @@ class AddTaskScreen extends StatelessWidget {
                 color: Colors.deepPurpleAccent,
                 textColor: Colors.white,
                 onPressed: () {
-                  /*...*/
+                  Provider.of<TaskData>(context, listen: false)
+                      .addTask(_taskName);
+
+                  Navigator.pop(context);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
